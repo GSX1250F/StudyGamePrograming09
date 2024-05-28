@@ -23,19 +23,19 @@ void FollowActor::ActorInput(const uint8_t* keys)
 	float forwardSpeed = 0.0f;
 	float angularSpeed = 0.0f;
 	
-	if (keys[SDL_SCANCODE_UP])
+	if (keys[SDL_SCANCODE_W])
 	{
 		forwardSpeed += 400.0f;
 	}
-	if (keys[SDL_SCANCODE_DOWN])
+	if (keys[SDL_SCANCODE_S])
 	{
 		forwardSpeed -= 400.0f;
 	}
-	if (keys[SDL_SCANCODE_LEFT])
+	if (keys[SDL_SCANCODE_A])
 	{
 		angularSpeed -= Math::Pi;
 	}
-	if (keys[SDL_SCANCODE_RIGHT])
+	if (keys[SDL_SCANCODE_D])
 	{
 		angularSpeed += Math::Pi;
 	}

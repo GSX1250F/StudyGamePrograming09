@@ -58,19 +58,19 @@ void FPSActor::ActorInput(const uint8_t* keys)
 	float forwardSpeed = 0.0f;
 	float strafeSpeed = 0.0f;
 	
-	if (keys[SDL_SCANCODE_UP])
+	if (keys[SDL_SCANCODE_W])
 	{
 		forwardSpeed += 400.0f;
 	}
-	if (keys[SDL_SCANCODE_DOWN])
+	if (keys[SDL_SCANCODE_S])
 	{
 		forwardSpeed -= 400.0f;
 	}
-	if (keys[SDL_SCANCODE_LEFT])
+	if (keys[SDL_SCANCODE_A])
 	{
 		strafeSpeed -= 400.0f;
 	}
-	if (keys[SDL_SCANCODE_RIGHT])
+	if (keys[SDL_SCANCODE_D])
 	{
 		strafeSpeed += 400.0f;
 	}

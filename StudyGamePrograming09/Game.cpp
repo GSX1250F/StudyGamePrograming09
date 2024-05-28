@@ -132,7 +132,6 @@ void Game::HandleKeyPress(int key)
 			mAudioSystem->SetBusVolume("bus:/", volume);
 			break;
 		}
-		/*
 		case 'e':
 			// Play explosion
 			mAudioSystem->PlayEvent("event:/Explosion2D");
@@ -152,7 +151,6 @@ void Game::HandleKeyPress(int key)
 				mReverbSnap.Stop();
 			}
 			break;
-		*/
 		case '1':
 		case '2':
 		case '3':
