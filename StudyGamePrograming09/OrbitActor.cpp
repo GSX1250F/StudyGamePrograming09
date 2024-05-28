@@ -18,33 +18,33 @@ OrbitActor::OrbitActor(Game* game):Actor(game)
 
 void OrbitActor::ActorInput(const uint8_t* keys)
 {
-	// Mouse rotation
-	// Get relative movement from SDL
+	// マウスで回転　SDLの相対モードを取得
 	int x, y;
 	Uint32 buttons = SDL_GetRelativeMouseState(&x, &y);
-	// Only apply rotation if right-click is held
+	// 右クリック保持中だけ回転
 	if (buttons & SDL_BUTTON(SDL_BUTTON_RIGHT))
 	{
-		// Assume mouse movement is usually between -500 and +500
+		// マウス動作は基本 -500 から +500の範囲
 		const int maxMouseSpeed = 500;
-		// Rotation/sec at maximum speed
+		// 回転速度の最大
 		const float maxOrbitSpeed = Math::Pi * 8;
 		float yawSpeed = 0.0f;
 		if (x != 0)
 		{
-			// Convert to ~[-1.0, 1.0]
+			// ヨーの角速度を[-1.0, 1.0]の範囲に収める
 			yawSpeed = static_cast<float>(x) / maxMouseSpeed;
-			// Multiply by rotation/sec
+			// ヨーの角速度に掛ける
 			yawSpeed *= maxOrbitSpeed;
 		}
 		mCameraComp->SetYawSpeed(-yawSpeed);
 
-		// Compute pitch
+		// ピッチを計算
 		float pitchSpeed = 0.0f;
 		if (y != 0)
 		{
-			// Convert to ~[-1.0, 1.0]
+			// ピッチの角速度を[-1.0, 1.0]の範囲に収める
 			pitchSpeed = static_cast<float>(y) / maxMouseSpeed;
+			// ピッチの角速度に掛ける
 			pitchSpeed *= maxOrbitSpeed;
 		}
 		mCameraComp->SetPitchSpeed(pitchSpeed);

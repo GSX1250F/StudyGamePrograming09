@@ -53,11 +53,6 @@ bool Game::Initialize()
 		return false;
 	}
 
-	// マウス総体モードを有効化
-	SDL_SetRelativeMouseMode(SDL_TRUE);
-	// 相対位置をリセット
-	SDL_GetRelativeMouseState(nullptr, nullptr);
-
 	LoadData();
 
 	mTicksCount = SDL_GetTicks();
@@ -87,13 +82,15 @@ void Game::ProcessInput()
 			case SDL_QUIT:
 				mIsRunning = false;
 				break;
-			// This fires when a key's initially pressed
+			// キーが押された最初に実行される
 			case SDL_KEYDOWN:
 				if (!event.key.repeat)
 				{
+					//キーが押されたままのとき
 					HandleKeyPress(event.key.keysym.sym);
 				}
 				break;
+			// マウスボタンが押されたときに実行
 			case SDL_MOUSEBUTTONDOWN:
 				HandleKeyPress(event.button.button);
 				break;
@@ -136,6 +133,11 @@ void Game::HandleKeyPress(int key)
 			mAudioSystem->SetBusVolume("bus:/", volume);
 			break;
 		}
+		/*
+		case 'e':
+			// Play explosion
+			mAudioSystem->PlayEvent("event:/Explosion2D");
+			break;
 		case 'm':
 			// Toggle music pause state
 			mMusicEvent.SetPaused(!mMusicEvent.GetPaused());
@@ -151,6 +153,7 @@ void Game::HandleKeyPress(int key)
 				mReverbSnap.Stop();
 			}
 			break;
+		*/
 		case '1':
 		case '2':
 		case '3':
@@ -159,13 +162,15 @@ void Game::HandleKeyPress(int key)
 			break;
 		case SDL_BUTTON_LEFT:
 		{
-			// Get start point (in center of screen on near plane)
+			// 画面中心をスタート位置として取得
 			Vector3 screenPoint(0.0f, 0.0f, 0.0f);
+			// 逆射影によってスタート位置のワールド座標を取得
 			Vector3 start = mRenderer->Unproject(screenPoint);
-			// Get end point (in center of screen, between near and far)
+			// 画面中心から少し先の位置をエンド位置として取得
 			screenPoint.z = 0.9f;
+			// 逆射影によってエンド位置のワールド座標を取得
 			Vector3 end = mRenderer->Unproject(screenPoint);
-			// Set spheres to points
+			// sphereをセット
 			mStartSphere->SetPosition(start);
 			mEndSphere->SetPosition(end);
 			break;
@@ -254,8 +259,7 @@ void Game::LoadData()
 	// 床を作成（PlaneActor）
 	const float start = -1250.0f;
 	const float size = 250.0f;
-	// 10個ずつ縦横に並べる
-	for (int i = 0; i < 10; i++)
+	for (int i = 0; i < 10; i++)		// 10個ずつ縦横に並べる
 	{
 		for (int j = 0; j < 10; j++)
 		{
@@ -316,25 +320,30 @@ void Game::LoadData()
 	mCrosshair = new SpriteComponent(a);
 	mCrosshair->SetTexture(mRenderer->GetTexture("Assets/Crosshair.png"));
 
-	// Start music
+	// 音楽スタート
 	mMusicEvent = mAudioSystem->PlayEvent("event:/Music");
+
+	// マウスの相対運動モードを有効にする
+	SDL_SetRelativeMouseMode(SDL_TRUE);
+	//相対運動モードの初期化
+	SDL_GetRelativeMouseState(nullptr, nullptr);
 
 	// それぞれのカメラアクター
 	mFPSActor = new FPSActor(this);				//FPSカメラ
 	mFollowActor = new FollowActor(this);		//追従カメラ
-	mOrbitActor = new OrbitActor(this);
-	mSplineActor = new SplineActor(this);
+	mOrbitActor = new OrbitActor(this);			//軌道カメラ
+	mSplineActor = new SplineActor(this);		//スプラインカメラ
 
-	ChangeCamera('1');
+	ChangeCamera('1');	//最初はFPSカメラモード
 
-	// Spheres for demonstrating unprojection
+	// Sphereを逆射影のデモに使用
 	mStartSphere = new Actor(this);
-	mStartSphere->SetPosition(Vector3(10000.0f, 0.0f, 0.0f));
+	mStartSphere->SetPosition(Vector3(10000.0f, 0.0f, 0.0f));	//画面外においておく？
 	mStartSphere->SetScale(0.25f);
 	mc = new MeshComponent(mStartSphere);
 	mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
 	mEndSphere = new Actor(this);
-	mEndSphere->SetPosition(Vector3(10000.0f, 0.0f, 0.0f));
+	mEndSphere->SetPosition(Vector3(10000.0f, 0.0f, 0.0f));		//画面外においておく？
 	mEndSphere->SetScale(0.25f);
 	mc = new MeshComponent(mEndSphere);
 	mc->SetMesh(mRenderer->GetMesh("Assets/Sphere.gpmesh"));
@@ -372,7 +381,7 @@ void Game::Shutdown()
 
 void Game::AddActor(Actor* actor)
 {
-	// If we're updating actors, need to add to pending
+	// アクターを更新するとき、Pendingアクターに追加しておく
 	if (mUpdatingActors)
 	{
 		mPendingActors.emplace_back(actor);
@@ -385,20 +394,20 @@ void Game::AddActor(Actor* actor)
 
 void Game::RemoveActor(Actor* actor)
 {
-	// Is it in pending actors?
+	// Pendingアクターである場合
 	auto iter = std::find(mPendingActors.begin(), mPendingActors.end(), actor);
 	if (iter != mPendingActors.end())
 	{
-		// Swap to end of vector and pop off (avoid erase copies)
+		// 配列の最後に入れ替えて、消去
 		std::iter_swap(iter, mPendingActors.end() - 1);
 		mPendingActors.pop_back();
 	}
 
-	// Is it in actors?
+	// アクターにある場合
 	iter = std::find(mActors.begin(), mActors.end(), actor);
 	if (iter != mActors.end())
 	{
-		// Swap to end of vector and pop off (avoid erase copies)
+		// 配列の最後に入れ替えて、消去
 		std::iter_swap(iter, mActors.end() - 1);
 		mActors.pop_back();
 	}
@@ -406,7 +415,7 @@ void Game::RemoveActor(Actor* actor)
 
 void Game::ChangeCamera(int mode)
 {
-	// Disable everything
+	// まずすべて無効化
 	mFPSActor->SetState(Actor::EPaused);
 	mFPSActor->SetVisible(false);
 	mCrosshair->SetVisible(false);
@@ -416,7 +425,7 @@ void Game::ChangeCamera(int mode)
 	mOrbitActor->SetVisible(false);
 	mSplineActor->SetState(Actor::EPaused);
 
-	// Enable the camera specified by the mode
+	// モードに応じて有効化
 	switch (mode)
 	{
 	case '1':
@@ -434,8 +443,8 @@ void Game::ChangeCamera(int mode)
 		mOrbitActor->SetVisible(true);
 		break;
 	case '4':
-		//mSplineActor->SetState(Actor::EActive);
-		//mSplineActor->RestartSpline();
+		mSplineActor->SetState(Actor::EActive);
+		mSplineActor->RestartSpline();
 		break;
 	}
 }

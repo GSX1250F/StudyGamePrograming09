@@ -109,8 +109,7 @@ void FPSActor::ActorInput(const uint8_t* keys)
 
 void FPSActor::SetFootstepSurface(float value)
 {
-	// Pause here because the way I setup the parameter in FMOD
-	// changing it will play a footstep
+	// ‰¹‚ğ~‚ß‚ÄA‘«‰¹‚ğ•ÏX
 	mFootstep.SetPaused(true);
 	mFootstep.SetParameter("Surface", value);
 }

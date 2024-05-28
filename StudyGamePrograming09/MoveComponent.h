@@ -7,9 +7,6 @@ class MoveComponent : public Component
 public:
 	//コンストラクタ。Update Orderは早め。
 	MoveComponent(class Actor* owner, int updateOrder = 10);
-	~MoveComponent();
-
-	//Updateをオーバーライド
 	void Update(float deltatime) override;
 
 	// 各パラメータのセッター＆ゲッター
@@ -51,7 +48,7 @@ public:
 private:
 	// 移動パラメータ
 	float mForwardSpeed;	// 前進移動速度
-	float mStrafeSpeed;	// 横進移動速度
+	float mStrafeSpeed;		// 横進移動速度
 	float mRotSpeed;		// 回転速度
 
 	// 古典物理パラメータ
@@ -61,7 +58,7 @@ private:
 	float mRotForce;		// 回転方向の力F +方向はCCW  ※temporary　回転はz軸周りだけ
 	float mTorque;			// トルク=回転方向の力 * 半径 = 慣性モーメント * 回転加速度  ※temporary　回転はz軸周りだけ
 	float mForwardAccel;	// 前進方向の重心加速度	=重心にかかる力 / 質量 
-	float mStrafeAccel;	// 前進方向の重心加速度	=重心にかかる力 / 質量 
+	float mStrafeAccel;		// 横進方向の重心加速度	=重心にかかる力 / 質量 
 	float mRotAccel;		// 回転加速度  ※temporary　回転はz軸周りだけ
 	float mImoment;			// 慣性モーメント
 	float mMoveResist;		// 重心速度抵抗率(%)

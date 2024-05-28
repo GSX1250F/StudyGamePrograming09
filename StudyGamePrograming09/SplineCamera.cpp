@@ -4,7 +4,7 @@
 // スプラインカメラコンポーネント
 Vector3 Spline::Compute(size_t startIdx, float t) const
 {
-	// Check if startIdx is out of bounds
+	// startIdxが境界外？
 	if (startIdx >= mControlPoints.size())
 	{
 		return mControlPoints.back();
@@ -18,20 +18,19 @@ Vector3 Spline::Compute(size_t startIdx, float t) const
 		return mControlPoints[startIdx];
 	}
 
-	// Get p0 through p3
+	// p0からp3までの制御店を取得
 	Vector3 p0 = mControlPoints[startIdx - 1];
 	Vector3 p1 = mControlPoints[startIdx];
 	Vector3 p2 = mControlPoints[startIdx + 1];
 	Vector3 p3 = mControlPoints[startIdx + 2];
-	// Compute position according to Catmull-Rom equation
+	// Catmull-Romの方程式によって位置を計算する
 	Vector3 position = 0.5f * ((2.0f * p1) + (-1.0f * p0 + p2) * t +
 		(2.0f * p0 - 5.0f * p1 + 4.0f * p2 - p3) * t * t +
 		(-1.0f * p0 + 3.0f * p1 - 3.0f * p2 + p3) * t * t * t);
 	return position;
 }
 
-SplineCamera::SplineCamera(Actor* owner)
-	:CameraComponent(owner)
+SplineCamera::SplineCamera(Actor* owner):CameraComponent(owner)
 	, mIndex(1)
 	, mT(0.0f)
 	, mSpeed(0.5f)
@@ -42,16 +41,14 @@ SplineCamera::SplineCamera(Actor* owner)
 void SplineCamera::Update(float deltaTime)
 {
 	CameraComponent::Update(deltaTime);
-	// Update t value
+	// tの値を更新
 	if (!mPaused)
 	{
 		mT += mSpeed * deltaTime;
-		// Advance to the next control point if needed.
-		// This assumes speed isn't so fast that you jump past
-		// multiple control points in one frame.
+		// 必要ならば次の制御点に進む。ただし、スピードが速すぎて１フレームに複数の制御点を飛び越さないことが前提
 		if (mT >= 1.0f)
 		{
-			// Make sure we have enough points to advance the path
+			// まだ経路を進むのに十分な数の点があるか
 			if (mIndex < mPath.GetNumPoints() - 3)
 			{
 				mIndex++;
@@ -59,17 +56,17 @@ void SplineCamera::Update(float deltaTime)
 			}
 			else
 			{
-				// Path's done, so pause
+				// 経路をたどり終わったので停止する
 				mPaused = true;
 			}
 		}
 	}
 
-	// Camera position is the spline at the current t/index
+	// カメラの位置を、現在のインデックスとtから求める。
 	Vector3 cameraPos = mPath.Compute(mIndex, mT);
-	// Target point is just a small delta ahead on the spline
+	// 注視点はわずかなデルタだけ先の位置
 	Vector3 target = mPath.Compute(mIndex, mT + 0.01f);
-	// Assume spline doesn't flip upside-down
+	// スプラインを上下逆にしないことを前提とする。
 	const Vector3 up = Vector3::UnitZ;
 	Matrix4 view = Matrix4::CreateLookAt(cameraPos, target, up);
 	SetViewMatrix(view);

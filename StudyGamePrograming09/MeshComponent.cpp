@@ -7,8 +7,7 @@
 #include "Texture.h"
 #include "VertexArray.h"
 
-MeshComponent::MeshComponent(Actor* owner)
-	:Component(owner)
+MeshComponent::MeshComponent(Actor* owner):Component(owner)
 	,mMesh(nullptr)
 	,mTextureIndex(0)
 	,mVisible(true)
@@ -26,8 +25,7 @@ void MeshComponent::Draw(Shader* shader)
 	if (mMesh)
 	{
 		// ワールド座標変換の設定
-		shader->SetMatrixUniform("uWorldTransform", 
-			                     mOwner->GetWorldTransform());
+		shader->SetMatrixUniform("uWorldTransform",mOwner->GetWorldTransform());
 		// 
 		shader->SetFloatUniform("uSpecPower", mMesh->GetSpecPower());
 		// アクティブテクスチャの設定

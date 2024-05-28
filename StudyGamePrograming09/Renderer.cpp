@@ -8,8 +8,7 @@
 #include "MeshComponent.h"
 #include <glew.h>
 
-Renderer::Renderer(Game* game)
-	:mGame(game)
+Renderer::Renderer(Game* game):mGame(game)
 	,mSpriteShader(nullptr)
 	,mMeshShader(nullptr)
 {
@@ -126,7 +125,10 @@ void Renderer::Draw()
 	SetLightUniforms(mMeshShader);
 	for (auto mc : mMeshComps)
 	{
-		mc->Draw(mMeshShader);
+		if (mc->GetVisible())
+		{
+			mc->Draw(mMeshShader);
+		}
 	}
 
 	// Draw all sprite components
@@ -142,7 +144,10 @@ void Renderer::Draw()
 	mSpriteVerts->SetActive();
 	for (auto sprite : mSprites)
 	{
-		sprite->Draw(mSpriteShader);
+		if (sprite->GetVisible())
+		{
+			sprite->Draw(mSpriteShader);
+		}
 	}
 
 	// Swap the buffers
@@ -300,12 +305,12 @@ void Renderer::SetLightUniforms(Shader* shader)
 
 Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 {
-	// Convert screenPoint to device coordinates (between -1 and +1)
+	// スクリーン座標をデバイス座標に変換(-1～+1の範囲)
 	Vector3 deviceCoord = screenPoint;
 	deviceCoord.x /= (mScreenWidth) * 0.5f;
 	deviceCoord.y /= (mScreenHeight) * 0.5f;
 
-	// Transform vector by unprojection matrix
+	// 逆射影行列でベクトルを変換
 	Matrix4 unprojection = mView * mProjection;
 	unprojection.Invert();
 	return Vector3::TransformWithPerspDiv(deviceCoord, unprojection);
@@ -313,13 +318,13 @@ Vector3 Renderer::Unproject(const Vector3& screenPoint) const
 
 void Renderer::GetScreenDirection(Vector3& outStart, Vector3& outDir) const
 {
-	// Get start point (in center of screen on near plane)
+	// 始点を近接平面での画面の中心にする
 	Vector3 screenPoint(0.0f, 0.0f, 0.0f);
 	outStart = Unproject(screenPoint);
-	// Get end point (in center of screen, between near and far)
+	// 終点を近接平面と遠方平面の間の画面の中心にする
 	screenPoint.z = 0.9f;
 	Vector3 end = Unproject(screenPoint);
-	// Get direction vector
+	// 方向ベクトルを定める
 	outDir = end - outStart;
 	outDir.Normalize();
 }

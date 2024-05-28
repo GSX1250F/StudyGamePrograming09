@@ -22,7 +22,7 @@ void FollowActor::ActorInput(const uint8_t* keys)
 {
 	float forwardSpeed = 0.0f;
 	float angularSpeed = 0.0f;
-	// wasd movement
+	
 	if (keys[SDL_SCANCODE_UP])
 	{
 		forwardSpeed += 400.0f;

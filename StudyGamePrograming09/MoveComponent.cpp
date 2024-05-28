@@ -2,26 +2,21 @@
 #include "Actor.h"
 #include "Math.h"
 
-MoveComponent::MoveComponent(Actor* owner, int updateOrder)
-	: Component(owner),
+MoveComponent::MoveComponent(Actor* owner, int updateOrder):Component(owner),
 	mForwardSpeed(0.0f),				// 前進移動速度
 	mStrafeSpeed(0.0f),					// 横進移動速度
 	mRotSpeed(0.0f),					// 回転速度
 	mMass(1.0f),						// 質量
-	mForwardForce(0.0f),				// 前進方向の重心にかかる力
-	mStrafeForce(0.0f),					// 横進方向の重心にかかる力
-	mForwardAccel(0.0f),				// 前進方向の重心加速度	=重心にかかる力 / 質量
-	mStrafeAccel(0.0f),					// 横進方向の重心加速度	=重心にかかる力 / 質量
-	mRotForce(0.0f),	// 回転方向の力F +方向はCCW
-	mRotAccel(0.0f),	// 回転加速度
+	mForwardForce(0.0f),				// 前進の重心にかかる力
+	mStrafeForce(0.0f),					// 横進の重心にかかる力
+	mForwardAccel(0.0f),				// 前進の重心加速度	=重心にかかる力 / 質量
+	mStrafeAccel(0.0f),					// 横進の重心加速度	=重心にかかる力 / 質量
+	mRotForce(0.0f),					// 回転力F +方向はCCW
+	mRotAccel(0.0f),					// 回転加速度
 	mMoveResist(0.0f),					// 重心速度抵抗率(%)
 	mRotResist(0.0f),					// 回転速度抵抗率(%)
-	mTorque(0.0f),		// トルク=回転方向の力 * 半径 = 慣性モーメント * 回転加速度
+	mTorque(0.0f),						// トルク
 	mImoment(0.0f)						// 慣性モーメント
-{
-}
-
-MoveComponent::~MoveComponent()
 {
 }
 
@@ -55,9 +50,8 @@ void MoveComponent::Update(float deltatime)
 		mForwardAccel = mForwardForce * (1.0f / mMass);
 		mStrafeAccel = mStrafeForce * (1.0f / mMass);
 		//抵抗力 = 速さ*抵抗係数    減速 = -速さ*抵抗係数/質量
-		float movedecel = Math::Sqrt(mForwardSpeed * mForwardSpeed + mStrafeSpeed * mStrafeSpeed)* mMoveResist * 0.01f * (1 / mMass);
-		mForwardAccel -= movedecel * mOwner->GetForward().Length();
-		mStrafeAccel -= movedecel * mOwner->GetStrafe().Length();
+		mForwardAccel -= mForwardSpeed * mMoveResist * 0.01f * (1 / mMass);
+		mStrafeAccel -= mForwardSpeed * mMoveResist * 0.01f * (1 / mMass);
 	}
 	else { mForwardAccel = 0.0f; mStrafeAccel = 0.0f; }
 	// Temporary +Z軸周りの回転のみを行う。
