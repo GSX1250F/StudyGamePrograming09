@@ -23,7 +23,7 @@ SpriteComponent::~SpriteComponent()
 
 void SpriteComponent::Draw(Shader* shader)
 {
-	if (mTexture && mOwner->GetState() != mOwner->EPaused)	// EPausedのときはDrawしないように修正
+	if (mTexture)
 	{
 		// テクスチャの幅と高さで短径をスケーリング
 		Matrix4 scaleMat = Matrix4::CreateScale(

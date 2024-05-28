@@ -13,8 +13,7 @@
 #include "OrbitActor.h"
 #include "SplineActor.h"
 
-Game::Game()
-	:mRenderer(nullptr),
+Game::Game():mRenderer(nullptr),
 	mAudioSystem(nullptr),
 	mIsRunning(true),
 	mUpdatingActors(false),
