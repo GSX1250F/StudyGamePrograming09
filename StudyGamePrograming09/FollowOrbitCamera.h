@@ -41,5 +41,9 @@ private:
 	float mPitchSpeed;
 	// ヨーの角速度
 	float mYawSpeed;
+
+	// practice
+	// アクターの変化前の前方ベクトル
+	Vector3 preActorForward;
 };
 
