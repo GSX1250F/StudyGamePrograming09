@@ -146,6 +146,7 @@ xcopy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studi
     <ClCompile Include="Componert.cpp" />
     <ClCompile Include="FollowActor.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
+    <ClCompile Include="FollowOrbitCamera.cpp" />
     <ClCompile Include="FPSActor.cpp" />
     <ClCompile Include="FPSCamera.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -176,6 +177,7 @@ xcopy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studi
     <ClInclude Include="Component.h" />
     <ClInclude Include="FollowActor.h" />
     <ClInclude Include="FollowCamera.h" />
+    <ClInclude Include="FollowOrbitCamera.h" />
     <ClInclude Include="FPSActor.h" />
     <ClInclude Include="FPSCamera.h" />
     <ClInclude Include="Game.h" />

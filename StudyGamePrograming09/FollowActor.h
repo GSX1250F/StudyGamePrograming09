@@ -12,6 +12,7 @@ public:
 	void SetVisible(bool visible);
 private:
 	class MoveComponent* mMoveComp;
-	class FollowCamera* mCameraComp;
+	//class FollowCamera* mCameraComp;
+	class FollowOrbitCamera* mCameraComp;
 	class MeshComponent* mMeshComp;
 };
