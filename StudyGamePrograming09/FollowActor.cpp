@@ -46,16 +46,30 @@ void FollowActor::ActorInput(const uint8_t* keys)
 
 	mMoveComp->SetForwardSpeed(forwardSpeed);
 	mMoveComp->SetRotSpeed(angularSpeed);
+	mCameraComp->SetYawSpeed(angularSpeed);
+
 
 	// カメラの水平距離をアクターのスピードに応じて変更
 	if (!Math::NearZero(forwardSpeed))
 	{
-		mCameraComp->SetHorzDist(500.0f);
+		if (forwardSpeed > 0.0f)
+		{
+			mCameraComp->SetHorzDist(500.0f);
+			mCameraComp->SetHorzDelta(-100.0f);
+		}
+		else
+		{
+			mCameraComp->SetHorzDist(500.0f);
+			mCameraComp->SetHorzDelta(80.0f);
+		}
 	}
 	else
 	{
 		mCameraComp->SetHorzDist(350.0f);
+		mCameraComp->SetHorzDelta(0.0f);
 	}
+
+
 
 	// OrbitActor
 	// マウスで回転　SDLの相対モードを取得

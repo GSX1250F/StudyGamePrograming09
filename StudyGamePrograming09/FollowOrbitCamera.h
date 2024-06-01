@@ -10,6 +10,7 @@ public:
 	void SnapToIdeal();
 
 	void SetHorzDist(float dist) { mHorzDist = dist; }
+	void SetHorzDelta(float dist) { mHorzDelta = dist; }
 	void SetVertDist(float dist) { mVertDist = dist; }
 	void SetTargetDist(float dist) { mTargetDist = dist; }
 	void SetSpringConstant(float spring) { mSpringConstant = spring; }
@@ -27,6 +28,8 @@ private:
 	Vector3 mVelocity;
 	// 追従アクター(FollowActor)との水平距離
 	float mHorzDist;
+	// 追従アクター(FollowActor)との水平距離変化分
+	float mHorzDelta;
 	// 追従アクター(FollowActor)との垂直距離
 	float mVertDist;
 	// 注視点と追従アクター(FollowActor)との水平距離
