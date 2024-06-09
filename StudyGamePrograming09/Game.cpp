@@ -98,14 +98,12 @@ void Game::ProcessInput()
 		}
 	}
 
-	/*
 	const Uint8* keyState = SDL_GetKeyboardState(NULL);
 	if (keyState[SDL_SCANCODE_ESCAPE])
 	{
 		mIsRunning = false;
 	}
-	*/
-
+	
 	mUpdatingActors = true;
 	for (auto actor : mActors)
 	{
