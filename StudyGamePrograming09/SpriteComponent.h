@@ -16,7 +16,6 @@ public:
 	int GetDrawOrder() const { return mDrawOrder; }
 	int GetTexWidth() const { return mTexWidth; }
 	int GetTexHeight() const { return mTexHeight; }
-
 	void SetTexWidth(int width) { mTexWidth = width; }
 	void SetTexHeight(int height) { mTexHeight = height; }
 
