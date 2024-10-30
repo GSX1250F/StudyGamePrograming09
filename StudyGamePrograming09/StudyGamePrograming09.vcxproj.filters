@@ -208,56 +208,6 @@
     <None Include="Shaders\SpriteShader.vert">
       <Filter>シェーダーファイル</Filter>
     </None>
-    <None Include="Assets\Cube.gpmesh">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Assets\Master Bank.bank">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Assets\Master Bank.strings.bank">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Assets\Plane.gpmesh">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Assets\Sphere.gpmesh">
-      <Filter>リソース ファイル</Filter>
-    </None>
     <None Include="packages.config" />
-    <None Include="Assets\RacingCar.gpmesh">
-      <Filter>リソース ファイル</Filter>
-    </None>
-    <None Include="Assets\Rifle.gpmesh">
-      <Filter>リソース ファイル</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Assets\Cube.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\Default.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\HealthBar.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\Plane.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\Radar.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\Sphere.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\Crosshair.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\RacingCar.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
-    <Image Include="Assets\Rifle.png">
-      <Filter>リソース ファイル</Filter>
-    </Image>
   </ItemGroup>
 </Project>

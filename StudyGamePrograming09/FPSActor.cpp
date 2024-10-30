@@ -32,7 +32,7 @@ void FPSActor::UpdateActor(float deltaTime)
 
 	// 動いたとき足音をたてる
 	mLastFootstep -= deltaTime;
-	if (!Math::NearZero(mMoveComp->GetForwardSpeed()) && mLastFootstep <= 0.0f)
+	if (!Math::NearZero(mMoveComp->GetVelocity().Length()) && mLastFootstep <= 0.0f)
 	{
 		mFootstep.SetPaused(false);
 		mFootstep.Restart();
@@ -43,13 +43,13 @@ void FPSActor::UpdateActor(float deltaTime)
 	const Vector3 modelOffset(Vector3(10.0f, 10.0f, -10.0f));
 	Vector3 modelPos = GetPosition();
 	modelPos += GetForward() * modelOffset.x;
-	modelPos += GetStrafe() * modelOffset.y;
+	modelPos += GetRightward() * modelOffset.y;
 	modelPos.z += modelOffset.z;
 	mFPSModel->SetPosition(modelPos);
 	// アクターの向きに初期化
 	Quaternion q = GetRotation();
 	// カメラのピッチによる回転
-	q = Quaternion::Concatenate(q, Quaternion(GetStrafe(), mCameraComp->GetPitch()));
+	q = Quaternion::Concatenate(q, Quaternion(GetRightward(), mCameraComp->GetPitch()));
 	mFPSModel->SetRotation(q);
 }
 
