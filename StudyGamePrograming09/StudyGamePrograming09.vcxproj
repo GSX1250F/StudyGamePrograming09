@@ -208,15 +208,10 @@ xcopy "C:\Program Files (x86)\FMOD SoundSystem\FMOD Studio API Windows\api\studi
     <None Include="Assets\Rifle.gpmesh" />
     <None Include="Assets\Sphere.gpmesh" />
     <None Include="packages.config" />
-    <None Include="Shaders\Basic.frag" />
-    <None Include="Shaders\Basic.vert" />
-    <None Include="Shaders\BasicMesh.frag" />
-    <None Include="Shaders\BasicMesh.vert" />
-    <None Include="Shaders\Phong.frag" />
-    <None Include="Shaders\Phong.vert" />
-    <None Include="Shaders\Sprite.frag" />
-    <None Include="Shaders\Sprite.vert" />
-    <None Include="Shaders\Transform.vert" />
+    <None Include="Shaders\MeshShader.frag" />
+    <None Include="Shaders\MeshShader.vert" />
+    <None Include="Shaders\SpriteShader.frag" />
+    <None Include="Shaders\SpriteShader.vert" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Crosshair.png" />
