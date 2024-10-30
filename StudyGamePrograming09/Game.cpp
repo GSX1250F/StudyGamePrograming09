@@ -87,11 +87,11 @@ void Game::ProcessInput()
 			case SDL_KEYDOWN:
 				if (!event.key.repeat)
 				{
-					//キーが押されたままのとき
+					//キーリピート中でないとき
 					HandleKeyPress(event.key.keysym.sym);
 				}
 				break;
-			// マウスボタンが押されたときに実行
+			// マウスボタンが押されたとき
 			case SDL_MOUSEBUTTONDOWN:
 				HandleKeyPress(event.button.button);
 				break;
