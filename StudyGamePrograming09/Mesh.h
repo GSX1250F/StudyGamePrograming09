@@ -10,8 +10,8 @@ public:
 	// Load/unload mesh
 	bool Load(const std::string& fileName, class Renderer* renderer);
 	void Unload();
-	// このMeshに割り当てられた頂点配列を取得
-	class VertexArray* GetVertexArray() { return mVertexArray; }
+	// このMeshに割り当てられた頂点情報クラスを取得
+	class VertexInfo* GetVertexInfo() { return mVertexInfo; }
 	// indexからテクスチャを取得
 	class Texture* GetTexture(size_t index);
 	// シェーダー名を取得
@@ -23,8 +23,8 @@ public:
 private:
 	// Meshのテクスチャ群
 	std::vector<class Texture*> mTextures;
-	// Meshの頂点配列
-	class VertexArray* mVertexArray;
+	// Meshの頂点情報クラス
+	class VertexInfo* mVertexInfo;
 	// シェーダーの名前
 	std::string mShaderName;
 	// オブジェクト空間での境界球の半径

@@ -4,15 +4,33 @@
 #include <unordered_map>
 #include <SDL.h>
 #include "Math.h"
+#include "Texture.h"
+#include "VertexInfo.h"
 
 struct DirectionalLight
 {
-	// Direction of light
-	Vector3 mDirection;
-	// Diffuse color
-	Vector3 mDiffuseColor;
-	// Specular color
-	Vector3 mSpecColor;
+	Vector3 mDirection;		// 光の方向
+	Vector3 mDiffuseColor;	// 拡散反射色
+	Vector3 mSpecColor;		// 鏡面反射色
+};
+
+struct PointLight
+{
+	Vector3 mPosition;		// 光源の位置
+	Vector3 mDiffuseColor;	// 拡散反射色
+	Vector3 mSpecColor;		// 鏡面反射色
+	float mAttenuation;		// 減衰係数
+};
+
+struct SpotLight
+{
+	Vector3 mPosition;		// 光源の位置
+	Vector3 mDirection;		// 光の中心方向
+	Vector3 mDiffuseColor;	// 拡散反射色
+	Vector3 mSpecColor;		// 鏡面反射色
+	float mAttenuation;		// 減衰係数
+	float mCornAngle;		// 照射角度
+	float mFalloff;			// 照射角度外減衰指数
 };
 
 class Renderer
@@ -22,8 +40,8 @@ public:
 	~Renderer();
 
 	bool Initialize(float screenWidth, float screenHeight);
-	void Shutdown();
 	void UnloadData();
+	void Shutdown();
 
 	void Draw();
 
@@ -35,63 +53,55 @@ public:
 
 	class Texture* GetTexture(const std::string& fileName);
 	class Mesh* GetMesh(const std::string& fileName);
+	class VertexInfo* GetVertexInfo() { return mVertexInfo; }
 
-	void SetViewMatrix(const Matrix4& view) { mView = view; }
+	void SetViewMatrix(const Matrix4& matrix) { mView = matrix; }
+	void SetProjMatrix(const Matrix4& matrix) { mProj = matrix; }
 
-	void SetAmbientLight(const Vector3& ambient) { mAmbientLight = ambient; }
-	DirectionalLight& GetDirectionalLight() { return mDirLight; }
-	
-	// Given a screen space point, unprojects it into world space,
-	// based on the current 3D view/projection matrices
-	// Expected ranges:
-	// x = [-screenWidth/2, +screenWidth/2]
-	// y = [-screenHeight/2, +screenHeight/2]
-	// z = [0, 1) -- 0 is closer to camera, 1 is further
-	Vector3 Unproject(const Vector3& screenPoint) const;
-	void GetScreenDirection(Vector3& outStart, Vector3& outDir) const;
+	Vector3& GetAmbientLight() { return mAmbientLight; }
+	void SetAmbientLight(const Vector3 ambient) { mAmbientLight = ambient; }
+	//DirectionalLight& GetDirectionalLight() { return mDirLight; }
+	std::vector<DirectionalLight>& GetDirectionalLights() { return mDirLights; }
+	//void SetDirectionalLight(const DirectionalLight& dir) { mDirLight = dir; }
+	void AddDirectionalLight(const DirectionalLight dl) { mDirLights.emplace_back(dl); }
+	std::vector<PointLight>& GetPointLights() { return mPointLights; }
+	void AddPointLight(const PointLight pl) { mPointLights.emplace_back(pl); }
+	std::vector<SpotLight>& GetSpotLights() { return mSpotLights; }
+	void AddSpotLight(const SpotLight sl) { mSpotLights.emplace_back(sl); }
 
 	float GetScreenWidth() const { return mScreenWidth; }
 	float GetScreenHeight() const { return mScreenHeight; }
+
 private:
+	void CreateVertexInfo();
 	bool LoadShaders();
-	void CreateSpriteVerts();
 	void SetLightUniforms(class Shader* shader);
 
-	// テクスチャのマップ
 	std::unordered_map<std::string, class Texture*> mTextures;
-	// メッシュのマップ
 	std::unordered_map<std::string, class Mesh*> mMeshes;
-
-	// スプライトコンポーネントの配列
-	std::vector<class SpriteComponent*> mSprites;
-
-	// メッシュコンポーネントの配列
+	std::unordered_map<class Shader*, std::string> mShaders;	//シェーダーとシェーダー名の連想配列
+	std::vector<class SpriteComponent*> mSprites;	
 	std::vector<class MeshComponent*> mMeshComps;
-
-	// Game
+	
 	class Game* mGame;
-
-	// Sprite shader
-	class Shader* mSpriteShader;
-	// Sprite vertex array
-	class VertexArray* mSpriteVerts;
-
-	// Mesh shader
-	class Shader* mMeshShader;
-
-	// View/projection for 3D shaders
-	Matrix4 mView;
-	Matrix4 mProjection;
-	// Width/height of screen
+	SDL_Window* mWindow;
+	SDL_Renderer* mRenderer;
+	SDL_GLContext mContext;
+	
 	float mScreenWidth;
 	float mScreenHeight;
 
-	// Lighting data
-	Vector3 mAmbientLight;
-	DirectionalLight mDirLight;
+	class VertexInfo* mVertexInfo;
+	class Shader* mSpriteShader;
+	//class Shader* mMeshShader;	
 
-	// Window
-	SDL_Window* mWindow;
-	// OpenGL context
-	SDL_GLContext mContext;
+	Matrix4 mView;
+	Matrix4 mProj;
+
+	// 環境光と光源
+	Vector3 mAmbientLight;
+	//DirectionalLight mDirLight;
+	std::vector<DirectionalLight> mDirLights;
+	std::vector<PointLight> mPointLights;
+	std::vector<SpotLight> mSpotLights;
 };

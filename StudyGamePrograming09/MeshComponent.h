@@ -11,9 +11,11 @@ public:
 	virtual void Draw(class Shader* shader);
 
 	virtual void SetMesh(class Mesh* mesh) { mMesh = mesh; }
+	virtual Mesh* GetMesh() { return mMesh; }
 	void SetTextureIndex(size_t index) { mTextureIndex = index; }
-	void SetVisible(bool visible) { mVisible = visible; }
+	void SetVisible(bool value) { mVisible = value; }
 	bool GetVisible() const { return mVisible; }
+
 protected:
 	class Mesh* mMesh;
 	size_t mTextureIndex;

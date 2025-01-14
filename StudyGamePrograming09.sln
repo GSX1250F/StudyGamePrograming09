@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.34916.146
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StudyGamePrograming09", "StudyGamePrograming09\StudyGamePrograming09.vcxproj", "{247915B7-BAD4-446F-879C-298E9F980476}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StudyGamePrograming09_original", "StudyGamePrograming09_original\StudyGamePrograming09_original.vcxproj", "{152B97C5-854E-416D-89B7-EB0AFAC02726}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{247915B7-BAD4-446F-879C-298E9F980476}.Release|x64.Build.0 = Release|x64
 		{247915B7-BAD4-446F-879C-298E9F980476}.Release|x86.ActiveCfg = Release|Win32
 		{247915B7-BAD4-446F-879C-298E9F980476}.Release|x86.Build.0 = Release|Win32
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Debug|x64.ActiveCfg = Debug|x64
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Debug|x64.Build.0 = Debug|x64
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Debug|x86.ActiveCfg = Debug|Win32
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Debug|x86.Build.0 = Debug|Win32
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Release|x64.ActiveCfg = Release|x64
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Release|x64.Build.0 = Release|x64
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Release|x86.ActiveCfg = Release|Win32
+		{152B97C5-854E-416D-89B7-EB0AFAC02726}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

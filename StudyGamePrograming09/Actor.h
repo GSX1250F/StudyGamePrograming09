@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "Math.h"
-#include <cstdint>
+#include <SDL.h>
 
 class Actor
 {
@@ -17,9 +17,9 @@ public:
 	virtual ~Actor();
 
 	// ゲームから呼び出されるProcess Input(オーバーライド不可)
-	void ProcessInput(const uint8_t* keyState);
+	void ProcessInput(const SDL_Event& event);
 	// アクター独自の入力処理(オーバーライド可能)
-	virtual void ActorInput(const uint8_t* keyState);
+	virtual void ActorInput(const SDL_Event& event);
 
 	// ゲームから呼び出される更新関数(オーバーライド不可)
 	void Update(float deltaTime);
@@ -34,24 +34,24 @@ public:
 	class Game* GetGame() { return mGame; }
 	// ワールド変換
 	void ComputeWorldTransform();
-	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
+	Matrix4 GetWorldTransform() { return mWorldTransform; }
 
 	// 全座標系
-	State GetState() const { return mState; }
+	State GetState() const { return mState; }	// 状態	
 	void SetState(State state) { mState = state; }
-	float GetRadius() { return mRadius * mScale; }	//拡大率を考慮
+	float GetRadius() const { return mRadius * mScale; }	// 半径
 	void SetRadius(float radius) { mRadius = radius; mRecomputeWorldTransform = true; }
-	float GetScale() const { return mScale; }
+	float GetScale() const { return mScale; }		// 拡大率（質量は変えない）	
 	void SetScale(float scale) { mScale = scale; mRecomputeWorldTransform = true; }
 
 	// ワールド座標系
 	const Vector3& GetPosition() const { return mPosition; }
-	void SetPosition(const Vector3& pos) { mPosition = pos; mRecomputeWorldTransform = true;}
+	void SetPosition(const Vector3& pos) { mPosition = pos; mRecomputeWorldTransform = true; }
 	const Quaternion& GetRotation() const { return mRotation; }
-	void SetRotation(const Quaternion& rotation) { mRotation = rotation; mRecomputeWorldTransform = true;}
-	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); }		//前方単位ベクトル
-	Vector3 GetRightward() const { return Vector3::Transform(Vector3::UnitY, mRotation); }		//右方単位ベクトル
-	Vector3 GetUpward() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }			//上方単位ベクトル
+	void SetRotation(const Quaternion& rotation) { mRotation = rotation; mRecomputeWorldTransform = true; }
+	Vector3 GetForward() const { return Vector3::Transform(Vector3::UnitX, mRotation); }
+	Vector3 GetRightward() const { return Vector3::Transform(Vector3::UnitY, mRotation); }
+	Vector3 GetUpward() const { return Vector3::Transform(Vector3::UnitZ, mRotation); }
 
 private:
 	class Game* mGame;
@@ -60,10 +60,10 @@ private:
 	bool mRecomputeWorldTransform;
 
 	// 全座標系
-	State mState;			// アクターの状態
-	float mScale;			// 拡大率
-	float mRadius;			// 半径（拡大率は無視）
+	State mState;			//アクター状態
+	float mScale;			//拡大率
+	float mRadius;			//半径（拡大率は無視）
 	// ワールド座標系
 	Vector3 mPosition;		//画面上の位置
-	Quaternion mRotation;	//回転（クォータニオン）
+	Quaternion mRotation;	//回転（軸と角度）
 };

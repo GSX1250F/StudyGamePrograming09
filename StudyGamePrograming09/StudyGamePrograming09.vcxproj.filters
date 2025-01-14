@@ -105,6 +105,21 @@
     <ClCompile Include="FollowOrbitCamera.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="CameraActor.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshActors.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteActors.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="VertexInfo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h">
@@ -194,6 +209,18 @@
     <ClInclude Include="FollowOrbitCamera.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="CameraActor.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshActors.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteActors.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexInfo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\MeshShader.frag">
@@ -209,5 +236,23 @@
       <Filter>シェーダーファイル</Filter>
     </None>
     <None Include="packages.config" />
+    <None Include="Shaders\BasicMesh.frag">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Shaders\BasicMesh.vert">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Shaders\LambertMesh.frag">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Shaders\LambertMesh.vert">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Shaders\PhongMesh.frag">
+      <Filter>シェーダーファイル</Filter>
+    </None>
+    <None Include="Shaders\PhongMesh.vert">
+      <Filter>シェーダーファイル</Filter>
+    </None>
   </ItemGroup>
 </Project>

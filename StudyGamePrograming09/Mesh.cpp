@@ -1,7 +1,7 @@
 #include "Mesh.h"
 #include "Renderer.h"
 #include "Texture.h"
-#include "VertexArray.h"
+#include "VertexInfo.h"
 #include <fstream>
 #include <sstream>
 #include <rapidjson/document.h>
@@ -9,17 +9,15 @@
 #include "Math.h"
 
 Mesh::Mesh()
-	:mVertexArray(nullptr)
-	,mRadius(0.0f)
-	,mSpecPower(100.0f)
-{
-}
+	: mVertexInfo(nullptr)
+	, mRadius(0.0f)
+	, mSpecPower(100.0f)
+{}
 
 Mesh::~Mesh()
-{
-}
+{}
 
-bool Mesh::Load(const std::string & fileName, Renderer* renderer)
+bool Mesh::Load(const std::string& fileName, Renderer* renderer)
 {
 	std::ifstream file(fileName);
 	if (!file.is_open())
@@ -142,15 +140,15 @@ bool Mesh::Load(const std::string & fileName, Renderer* renderer)
 	}
 
 	// Now create a vertex array
-	mVertexArray = new VertexArray(vertices.data(), static_cast<unsigned>(vertices.size()) / vertSize,
+	mVertexInfo = new VertexInfo(vertices.data(), static_cast<unsigned>(vertices.size()) / vertSize,
 		indices.data(), static_cast<unsigned>(indices.size()));
 	return true;
 }
 
 void Mesh::Unload()
 {
-	delete mVertexArray;
-	mVertexArray = nullptr;
+	delete mVertexInfo;
+	mVertexInfo = nullptr;
 }
 
 Texture* Mesh::GetTexture(size_t index)
